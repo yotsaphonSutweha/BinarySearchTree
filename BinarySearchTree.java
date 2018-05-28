@@ -1,11 +1,13 @@
-public class BinarySearchTree {
-    BTNode theRoot;
+public class BinarySearchTree<T extends Comparable<T>> {
+    BTNode<T> theRoot;
+    String x;
 
     public BinarySearchTree() {
         theRoot = null;
+        x ="";
     }
 
-    public BTNode theRoot() {
+    public BTNode<T> theRoot() {
         return theRoot;
     }
 
@@ -16,18 +18,18 @@ public class BinarySearchTree {
         return false;
     }
 
-    public void insertNode(BTNode startNode, BTNode newNode){
+    public void insertNode(BTNode<T> startNode, BTNode<T> newNode){
         if(theRoot == null){
             theRoot = newNode;
         }else{
-            if(newNode.getElem() > startNode.getElem()){
+            if(newNode.getElem().compareTo(startNode.getElem()) > 0){
                 if(startNode.getRightC() == null){
                     startNode.setRightC(newNode);
                 }else{
                     insertNode(startNode.getRightC(), newNode);
                 }
             }
-            else if(newNode.getElem() < startNode.getElem()){
+            else if(newNode.getElem().compareTo(startNode.getElem()) < 0){
                 if(startNode.getLeftC() == null){
                     startNode.setLeftC(newNode);
                 }else{
@@ -40,14 +42,14 @@ public class BinarySearchTree {
         }
     }
 
-    public BTNode search(int elem, BTNode startNode){
+    public BTNode search(T elem, BTNode<T> startNode){
         if(startNode.getElem() == elem){
             return startNode;
         }
         else{
-            if(startNode.getElem() > elem){
+            if(startNode.getElem().compareTo(elem) > 0){
                 return  search(elem, startNode.getLeftC());
-            }else if(startNode.getElem() < elem){
+            }else if(startNode.getElem().compareTo(elem) < 0){
                 return search(elem,startNode.getRightC());
             }
         }
@@ -55,15 +57,52 @@ public class BinarySearchTree {
 
     }
 
-    public void inOrderTraversal(BTNode theStart){
-        if(theStart == null){
-            return;
+    public BTNode<T> delete(Comparable<T> elem, BTNode start){
+        if(start == null){
+            return start;
         }else{
-            inOrderTraversal(theStart.getLeftC());
-            System.out.println(theStart.getElem());
-            inOrderTraversal(theStart.getRightC());
-
+            if(start.getElem().compareTo(elem) > 0){
+                start.setLeftC(delete(elem, start.getLeftC()));
+            }else if(start.getElem().compareTo(elem) < 0){
+                start.setRightC(delete(elem, start.getRightC()));
+            }else{
+                // node to delete has 1 or 2 child
+                if(start.getLeftC() == null){
+                    return start.getRightC();
+                }else if(start.getRightC() == null){
+                    return start.getLeftC();
+                }else{
+                    start.setElem(predecessor(start).getElem());
+                    System.out.println(predecessor(start).getElem());
+                    start.setRightC(delete(start.getElem(), start.getRightC()));
+                }
+            }
         }
+        return start;
+    }
+
+    public BTNode<T> predecessor(BTNode<T> node){
+        if(node.getRightC() == null){
+            return node;
+        }else{
+            return(predecessor(node.getRightC()));
+        }
+    }
+
+    public void inOrderTraversal(BTNode<T> theStart){
+        x = "";
+        System.out.println(inOrderTraversalHelper(theStart));
+    }
+
+
+    public String inOrderTraversalHelper(BTNode<T> theStart) {
+        if(theStart != null){
+            inOrderTraversalHelper(theStart.getLeftC());
+            x+=theStart.getElem() + " ";
+            inOrderTraversalHelper(theStart.getRightC());
+        }
+
+        return x.trim();
     }
 
 }

@@ -1,14 +1,14 @@
 public class Main {
     public static void main(String args[]){
         BinarySearchTree tree = new BinarySearchTree();
-        BTNode node1 = new BTNode(50);
-        BTNode node2 = new BTNode(25);
-        BTNode node3 = new BTNode(75);
-        BTNode node4 = new BTNode(12);
-        BTNode node5 = new BTNode(30);
-        BTNode node6 = new BTNode(60);
-        BTNode node7 = new BTNode(80);
-        BTNode node8 = new BTNode(26);
+        BTNode<String> node1 = new BTNode<>("50");
+        BTNode<String> node2 = new BTNode<>("25");
+        BTNode<String> node3 = new BTNode<>("75");
+        BTNode<String> node4 = new BTNode<>("12");
+        BTNode<String> node5 = new BTNode<>("30");
+        BTNode<String> node6 = new BTNode<>("60");
+        BTNode<String> node7 = new BTNode<>("80");
+        BTNode<String> node8 = new BTNode<>("26");
 
 
 
@@ -21,7 +21,6 @@ public class Main {
         tree.insertNode(tree.theRoot(),node6);
         tree.insertNode(tree.theRoot(),node7);
         tree.insertNode(tree.theRoot(),node8);
-        tree.inOrderTraversal(tree.theRoot());
 
 
         BTNode foundNode = tree.search(node3.getElem(),tree.theRoot);
@@ -30,5 +29,16 @@ public class Main {
         }else{
             System.out.println("\n"+foundNode.getElem() + " is found");
         }
+
+        tree.inOrderTraversal(tree.theRoot());
+//        tree.delete(80, tree.theRoot());
+        tree.inOrderTraversal(tree.theRoot());
+        tree.delete("75", tree.theRoot());
+        tree.inOrderTraversal(tree.theRoot());
+        tree.delete("25", tree.theRoot());
+        tree.inOrderTraversal(tree.theRoot());
+
+
+
     }
 }
